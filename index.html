@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>공급망 ESG 진단 대시보드</title>
+<meta name="description" content="공급망 ESG 진단·컨설팅 업무 단계별 실행 체계, 조직 R&R, 국내 대기업 벤치마킹 대시보드">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+  :root{
+    --ground:#F5F7F4;--surface:#FFFFFF;--surface-2:#EEF2ED;--ink:#18201C;--muted:#5C6862;--faint:#8A948E;
+    --line:#DDE3DD;--pine:#1F6B4A;--pine-soft:#E3EFE8;--slate:#2C5A82;--shadow:0 1px 2px rgba(20,32,26,.06),0 8px 24px rgba(20,32,26,.05);
+  }
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+    --ground:#10140F;--surface:#181D17;--surface-2:#20261F;--ink:#E8ECE6;--muted:#A2ACA4;--faint:#727C75;
+    --line:#2A312A;--pine:#5FB98A;--pine-soft:#1B2A22;--slate:#78A9D4;--shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  }}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{font-family:"IBM Plex Sans KR",sans-serif;margin:0;text-wrap:balance}
+  a{color:inherit;text-decoration:none}
+  header{padding:66px 0 30px;text-align:center}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pine);font-weight:600}
+  header h1{font-size:clamp(30px,5vw,46px);line-height:1.14;margin:16px 0 0;letter-spacing:-.01em;font-weight:700}
+  header p{color:var(--muted);max-width:60ch;margin:18px auto 0;font-size:16.5px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;padding:14px 0 40px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;transition:transform .18s,box-shadow .18s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(20,32,26,.1),0 22px 48px rgba(20,32,26,.12)}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c,var(--pine))}
+  .card .tag{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--c,var(--pine));font-weight:600}
+  .card h2{font-size:21px;font-weight:700}
+  .card p{margin:0;color:var(--muted);font-size:14px;flex:1}
+  .card .go{align-self:flex-start;font-family:"IBM Plex Sans KR";font-weight:600;font-size:14px;color:#fff;background:var(--c,var(--pine));padding:9px 18px;border-radius:10px}
+  .feat{grid-column:1 / -1}
+  .feat .swatches{display:flex;gap:8px;margin-top:2px}
+  .sw{width:26px;height:26px;border-radius:7px;border:1px solid rgba(0,0,0,.08)}
+  footer{border-top:1px solid var(--line);padding:22px 0 44px;color:var(--faint);font-size:12.5px;text-align:center}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Supply Chain ESG · Diagnostic &amp; Consulting</div>
+      <h1>공급망 ESG 진단·컨설팅 대시보드</h1>
+      <p>협력사 ESG 리스크 진단 8단계 실행 체계, 조직별 R&amp;R(RACI), 국내 대기업 5개 사 벤치마킹을 담았습니다. 아래에서 원하는 버전을 선택하세요.</p>
+    </header>
+
+    <div class="grid">
+      <a class="card feat" href="dashboard.html" style="--c:var(--pine)">
+        <span class="tag">Main · 통합 대시보드</span>
+        <h2>공급망 ESG 진단 플레이북</h2>
+        <p>진단 8단계 · RACI 매트릭스 · 국내 대기업 벤치마킹 · 기준 프레임워크를 하나로 통합한 기본 버전입니다.</p>
+        <span class="go">열기 →</span>
+      </a>
+
+      <a class="card" href="sian-a.html" style="--c:#0F5C57">
+        <span class="tag">시안 A · Audit Ledger</span>
+        <h2>감사 원장</h2>
+        <p>세리프 + 괘선 기반의 격조 있는 정통 문서형. 이사회·감사 보고, 공식 지침서에 어울립니다.</p>
+        <div class="swatches"><span class="sw" style="background:#FAF8F2"></span><span class="sw" style="background:#0F5C57"></span><span class="sw" style="background:#9E3B2E"></span></div>
+        <span class="go" style="background:#0F5C57">열기 →</span>
+      </a>
+
+      <a class="card" href="sian-b.html" style="--c:#12A594">
+        <span class="tag">시안 B · Control Room</span>
+        <h2>관제 콘솔</h2>
+        <p>다크 운영 대시보드형. 고대비·상태 스트라이프·모노 데이터로 실무 모니터링 화면에 적합합니다.</p>
+        <div class="swatches"><span class="sw" style="background:#0B0F0D"></span><span class="sw" style="background:#5DE8A6"></span><span class="sw" style="background:#F5B841"></span></div>
+        <span class="go" style="background:#12A594">열기 →</span>
+      </a>
+
+      <a class="card" href="sian-c.html" style="--c:#4B3FD6">
+        <span class="tag">시안 C · Brand Consulting</span>
+        <h2>컨설팅 브리프</h2>
+        <p>밝고 컬러풀한 컨설팅 덱형. 큰 타이포·둥근 카드·인디고 그라데이션으로 경영진 발표에 적합합니다.</p>
+        <div class="swatches"><span class="sw" style="background:#4B3FD6"></span><span class="sw" style="background:#12A594"></span><span class="sw" style="background:#F0603C"></span></div>
+        <span class="go" style="background:#4B3FD6">열기 →</span>
+      </a>
+    </div>
+
+    <footer>
+      각 사 정보는 공개된 지속가능경영보고서·공시·언론 보도 기준 · 정적 사이트 (Vercel 배포)
+    </footer>
+  </div>
+</body>
+</html>
