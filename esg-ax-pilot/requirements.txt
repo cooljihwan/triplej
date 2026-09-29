@@ -1,0 +1,11 @@
+sqlalchemy>=2.0
+pydantic>=2.0
+python-dotenv>=1.0
+pyyaml>=6.0
+pytest>=8.0
+# 이후 단계에서 사용
+# anthropic
+# pandas
+# openpyxl
+# pdfplumber
+# streamlit
