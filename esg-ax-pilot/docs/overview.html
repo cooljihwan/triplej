@@ -2,177 +2,171 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
-/* 레이아웃: 한 열 문서형. 아키텍처 → 워크플로우(스윔레인) → 점수 로직 → 받은 데이터 → 진행현황 */
+/* 레이아웃: 한 열 문서형. 검증·컨설팅 팀 관점의 파일럿 구성도가 중심, 아래로 예시·역할분담·방향 맞추기 */
 :root {
   --bg: #f5f7f4;
   --surface: #ffffff;
   --ink: #1d2a24;
   --muted: #5b6b63;
+  --faint: #8d9a93;
   --line: #d6ded8;
-  --accent: #2f6b4f;
-  --accent-soft: #e2efe7;
-  --human: #9a5b13;
-  --human-soft: #f7ead9;
-  --src: #1f5f99;
-  --src-soft: #e3edf7;
-  --ag-diag: #2f6b4f;  --ag-diag-soft: #e2efe7;
-  --ag-cons: #6a4c9c;  --ag-cons-soft: #eee8f7;
-  --ag-ops:  #1f6f7a;  --ag-ops-soft:  #e0f0f1;
-  --risk-hi: #c0392b; --risk-mid: #d68910; --risk-lo: #2e8b57;
-  --bar: #2f6b4f;
-  --todo: #9aa7a0;
+  --verify: #1f5f99;   --verify-soft: #e3edf7;
+  --consult: #6a4c9c;  --consult-soft: #eee8f7;
+  --ops: #5b6b63;      --ops-soft: #eef1ef;
+  --human: #9a5b13;    --human-soft: #f7ead9;
+  --src: #2f6b4f;      --src-soft: #e2efe7;
+  --ok: #2e7d4f; --bad: #b83227; --miss: #9a5b13; --check: #5b6b63;
   --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #131a17; --surface: #1b2420; --ink: #e4ece7; --muted: #9db0a6; --line: #2e3b35;
-    --accent: #7cc39d; --accent-soft: #203a2e; --human: #e3a55a; --human-soft: #3a2a17;
-    --src: #7fb3e6; --src-soft: #1d2f40;
-    --ag-diag: #7cc39d; --ag-diag-soft: #203a2e;
-    --ag-cons: #b9a0e6; --ag-cons-soft: #2d2540;
-    --ag-ops: #6fc6d1;  --ag-ops-soft: #173338;
-    --risk-hi: #ef7b6e; --risk-mid: #f0b454; --risk-lo: #6fcf97;
-    --bar: #7cc39d; --todo: #5d6c65;
+    --bg: #131a17; --surface: #1b2420; --ink: #e4ece7; --muted: #9db0a6; --faint: #71817a; --line: #2e3b35;
+    --verify: #7fb3e6; --verify-soft: #1d2f40;
+    --consult: #b9a0e6; --consult-soft: #2d2540;
+    --ops: #9db0a6; --ops-soft: #222c28;
+    --human: #e3a55a; --human-soft: #3a2a17;
+    --src: #7cc39d; --src-soft: #203a2e;
+    --ok: #6fcf97; --bad: #ef7b6e; --miss: #e3a55a; --check: #9db0a6;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #131a17; --surface: #1b2420; --ink: #e4ece7; --muted: #9db0a6; --line: #2e3b35;
-  --accent: #7cc39d; --accent-soft: #203a2e; --human: #e3a55a; --human-soft: #3a2a17;
-  --src: #7fb3e6; --src-soft: #1d2f40;
-  --ag-diag: #7cc39d; --ag-diag-soft: #203a2e;
-  --ag-cons: #b9a0e6; --ag-cons-soft: #2d2540;
-  --ag-ops: #6fc6d1;  --ag-ops-soft: #173338;
-  --risk-hi: #ef7b6e; --risk-mid: #f0b454; --risk-lo: #6fcf97;
-  --bar: #7cc39d; --todo: #5d6c65;
+  --bg: #131a17; --surface: #1b2420; --ink: #e4ece7; --muted: #9db0a6; --faint: #71817a; --line: #2e3b35;
+  --verify: #7fb3e6; --verify-soft: #1d2f40;
+  --consult: #b9a0e6; --consult-soft: #2d2540;
+  --ops: #9db0a6; --ops-soft: #222c28;
+  --human: #e3a55a; --human-soft: #3a2a17;
+  --src: #7cc39d; --src-soft: #203a2e;
+  --ok: #6fcf97; --bad: #ef7b6e; --miss: #e3a55a; --check: #9db0a6;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.65; }
-.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 60px; }
+.wrap { max-width: 1060px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 60px; }
 h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.3; }
 h1 { font-size: 30px; }
 h2 { font-size: 22px; }
 h3 { font-size: 15px; }
 p { margin: 0; max-width: 68ch; }
-ul { margin: 0; padding-left: 18px; }
-.eyebrow { font-size: 12px; letter-spacing: .08em; color: var(--accent); font-weight: 700; }
+ul, ol { margin: 0; padding-left: 18px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; color: var(--verify); font-weight: 700; }
 .lead { color: var(--muted); }
 section { display: grid; gap: 20px; }
 .mono { font-family: var(--font-mono); }
+.scroll { overflow-x: auto; padding-bottom: 6px; }
+
+/* ---------- Click ESG 전체 흐름에서 우리 위치 ---------- */
+.context { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+.ctx { padding: 8px 10px; font-size: 12.5px; border-radius: 6px; background: var(--surface); border: 1px solid var(--line); color: var(--faint); display: grid; gap: 2px; }
+.ctx b { font-size: 13px; }
+.ctx.focus-v { background: var(--verify-soft); border: 2px solid var(--verify); color: var(--ink); }
+.ctx.focus-v b { color: var(--verify); }
+.ctx.focus-c { background: var(--consult-soft); border: 2px solid var(--consult); color: var(--ink); }
+.ctx.focus-c b { color: var(--consult); }
+.ctx-note { font-size: 13px; color: var(--muted); }
+
+/* ---------- 파일럿 구성도 ---------- */
+.pilot { display: grid; grid-template-columns: minmax(170px, .8fr) auto minmax(0, 3fr) auto minmax(170px, .9fr); gap: 10px; min-width: 980px; align-items: stretch; }
+.side { border-radius: 12px; padding: 14px; display: grid; gap: 8px; align-content: start; }
+.side.in { background: var(--src-soft); border: 2px solid var(--src); }
+.side.out { background: var(--surface); border: 2px solid var(--ink); }
+.side h3 { font-size: 15px; }
+.side .cap { font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--muted); }
+.chip { display: block; font-size: 12.5px; padding: 6px 9px; border-radius: 7px; background: var(--surface); border: 1px solid var(--line); line-height: 1.45; }
+.chip small { display: block; color: var(--muted); font-size: 11.5px; }
+.side.out .chip { background: var(--bg); }
+.arrow { display: grid; place-items: center; color: var(--muted); font-size: 22px; }
+.core { display: grid; gap: 10px; }
+.duo { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 10px; }
+.block { border-radius: 12px; padding: 14px; display: grid; gap: 8px; align-content: start; }
+.block.v { background: var(--verify-soft); border: 2px solid var(--verify); }
+.block.c { background: var(--consult-soft); border: 2px solid var(--consult); }
+.block-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.block-head h3 { font-size: 17px; }
+.block.v h3 { color: var(--verify); }
+.block.c h3 { color: var(--consult); }
+.block-head span { font-size: 12px; color: var(--muted); }
+.stp { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; background: var(--surface); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; line-height: 1.5; border: 1px solid var(--line); }
+.stp .n { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--muted); }
+.stp b { font-size: 13px; display: block; }
+.stp .who { font-size: 11px; font-weight: 700; }
+.stp.ai .who { color: var(--verify); }
+.block.c .stp.ai .who { color: var(--consult); }
+.stp.code .who { color: var(--muted); }
+.stp.human { border: 2px dashed var(--human); background: var(--human-soft); }
+.stp.human .who { color: var(--human); }
+.stp.s2 { border-style: dotted; color: var(--muted); }
+.stp.s2 .who { color: var(--faint); }
+.support { border-radius: 10px; padding: 10px 14px; background: var(--ops-soft); border: 1px solid var(--line); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; }
+.support b { color: var(--ink); font-size: 13px; }
+.db { border-radius: 10px; padding: 8px 14px; border: 1px solid var(--line); background: var(--surface); font-size: 12.5px; color: var(--muted); text-align: center; }
+.db b { color: var(--ink); }
 .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--muted); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; border: 2px solid; }
-.scroll { overflow-x: auto; padding-bottom: 6px; }
 
-/* ---------- 아키텍처 ---------- */
-.arch { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 2.4fr) auto minmax(0, 1fr); gap: 12px; align-items: stretch; }
-.col { display: grid; gap: 10px; align-content: start; }
-.col-title { font-size: 12px; font-weight: 700; letter-spacing: .06em; color: var(--muted); }
-.panel { border-radius: 12px; padding: 16px; display: grid; gap: 10px; align-content: start; }
-.panel.src { background: var(--src-soft); border: 2px solid var(--src); }
-.panel.ax { background: var(--surface); border: 2px solid var(--ink); }
-.panel.out { background: var(--human-soft); border: 2px dashed var(--human); }
-.panel h3 { font-size: 16px; }
-.chip { display: block; font-size: 13px; padding: 6px 10px; border-radius: 8px; background: var(--surface); border: 1px solid var(--line); }
-.chip small { display: block; color: var(--muted); font-size: 12px; }
-.flow-arrow { display: grid; place-items: center; color: var(--muted); font-size: 22px; }
-.flow-arrow span { writing-mode: vertical-rl; font-size: 12px; letter-spacing: .1em; }
-.ax-inner { display: grid; gap: 10px; }
-.ax-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.agent { border-radius: 10px; padding: 10px 12px; border: 2px solid; display: grid; gap: 2px; font-size: 13px; }
-.agent b { font-size: 14px; }
-.agent.diag { border-color: var(--ag-diag); background: var(--ag-diag-soft); } .agent.diag b { color: var(--ag-diag); }
-.agent.cons { border-color: var(--ag-cons); background: var(--ag-cons-soft); } .agent.cons b { color: var(--ag-cons); }
-.agent.ops  { border-color: var(--ag-ops);  background: var(--ag-ops-soft); }  .agent.ops b  { color: var(--ag-ops); }
-.agent span { color: var(--muted); }
-.strip { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; background: var(--bg); display: grid; gap: 2px; }
-.strip b { font-size: 14px; }
-.strip span { color: var(--muted); }
-.strip.db { border: 2px solid var(--ink); text-align: center; }
-.strip.approve { border: 2px dashed var(--human); background: var(--human-soft); }
-.strip.approve b { color: var(--human); }
-.loop-note { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
+/* ---------- 검증 예시 ---------- */
+.eg-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--muted); }
+.eg-meta b { color: var(--ink); }
+.qtable { width: 100%; min-width: 900px; border-collapse: collapse; background: var(--surface); font-size: 13px; }
+.qtable th, .qtable td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.qtable th { font-size: 12px; color: var(--muted); background: var(--bg); font-weight: 700; }
+.qtable td small { display: block; color: var(--muted); font-size: 12px; }
+.qtable .num { font-variant-numeric: tabular-nums; white-space: nowrap; font-family: var(--font-mono); }
+.verdict { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 99px; border: 1.5px solid; white-space: nowrap; display: inline-block; }
+.verdict.ok { color: var(--ok); } .verdict.bad { color: var(--bad); } .verdict.miss { color: var(--miss); } .verdict.check { color: var(--check); }
+.src { font-family: var(--font-mono); font-size: 11.5px; color: var(--verify); }
+.frame { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.frame-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 10px 12px; background: var(--bg); font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); }
+.frame-foot b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.btns { display: flex; gap: 6px; }
+.btn { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 6px; border: 1.5px solid var(--human); color: var(--human); background: var(--surface); }
+.btn.primary { background: var(--human); color: var(--surface); }
 
-/* ---------- 스윔레인 ---------- */
-.lanes { display: grid; grid-template-columns: 96px repeat(6, minmax(150px, 1fr)); min-width: 1060px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
-.lanes > div { padding: 10px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 12.5px; line-height: 1.5; display: grid; gap: 6px; align-content: start; }
-.lanes .ph { background: var(--bg); font-weight: 700; font-size: 13px; }
-.lanes .ph small { display: block; font-weight: 400; color: var(--muted); font-size: 11px; }
-.lanes .who { font-weight: 700; font-size: 13px; background: var(--bg); }
-.lanes .who small { display: block; font-weight: 400; font-size: 11px; color: var(--muted); }
-.lanes .ax-lane { background: var(--accent-soft); }
-.lanes .who.ax { background: var(--accent-soft); color: var(--accent); }
-.st { display: block; padding: 5px 8px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); }
-.st.mail::after { content: " ✉"; color: var(--muted); }
-.tag { display: block; padding: 6px 8px; border-radius: 6px; border: 2px solid; background: var(--surface); }
-.tag.diag { border-color: var(--ag-diag); } .tag.cons { border-color: var(--ag-cons); } .tag.ops { border-color: var(--ag-ops); }
-.tag.code { border-color: var(--line); border-style: dashed; }
-.tag.human { border-color: var(--human); border-style: dashed; background: var(--human-soft); }
-.tag.step2 { border-color: var(--todo); border-style: dotted; color: var(--muted); }
-.tag i { font-style: normal; font-size: 11px; font-weight: 700; display: block; }
-.tag.diag i { color: var(--ag-diag); } .tag.cons i { color: var(--ag-cons); } .tag.ops i { color: var(--ag-ops); }
-.tag.code i { color: var(--muted); } .tag.human i { color: var(--human); } .tag.step2 i { color: var(--todo); }
+/* ---------- 컨설팅 예시 ---------- */
+.items { display: grid; gap: 8px; }
+.item { display: grid; grid-template-columns: 56px minmax(0, 1.2fr) minmax(0, 1.4fr); gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 13px; align-items: start; }
+.prio { font-weight: 700; font-size: 13px; text-align: center; border-radius: 8px; padding: 4px 0; border: 1.5px solid var(--consult); color: var(--consult); }
+.item b { font-size: 14px; display: block; }
+.item small { color: var(--muted); font-size: 12px; display: block; }
+.bp { font-family: var(--font-mono); font-size: 12px; color: var(--consult); }
+.bp.none { color: var(--bad); font-family: var(--font-body); font-weight: 700; }
 
-/* ---------- 상태 흐름 ---------- */
-.states { display: flex; flex-wrap: nowrap; min-width: 1060px; }
-.state { flex: 1 1 0; padding: 10px 8px; background: var(--surface); border-top: 4px solid var(--accent); font-size: 12px; display: grid; gap: 3px; align-content: start; }
-.state + .state { border-left: 1px solid var(--line); }
-.state.h { border-top-color: var(--human); background: var(--human-soft); }
-.state.c { border-top-color: var(--src); }
-.state strong { font-size: 13px; }
-.state span { color: var(--muted); }
+/* ---------- 역할 분담 ---------- */
+.roles { width: 100%; min-width: 720px; border-collapse: collapse; background: var(--surface); font-size: 13.5px; }
+.roles th, .roles td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.roles th { font-size: 12px; color: var(--muted); background: var(--bg); }
+.roles td:first-child { font-weight: 700; white-space: nowrap; }
 
-/* ---------- 점수 로직 ---------- */
-.calc { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-.calc .strip { background: var(--surface); }
-.calc .strip .mono { font-size: 12px; color: var(--muted); }
-.scale { display: grid; gap: 6px; }
-.scale-bar { display: grid; grid-template-columns: 30fr 40fr 30fr; height: 30px; border-radius: 6px; overflow: hidden; gap: 2px; background: var(--surface); }
-.scale-bar div { display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #fff; }
-.scale-ticks { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
-
-/* ---------- 데이터 ---------- */
-.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 2px; }
-.tile b { font-size: 26px; font-variant-numeric: tabular-nums; line-height: 1.2; }
-.tile span { font-size: 13px; color: var(--muted); }
-.charts { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px; }
-.chart { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 10px; align-content: start; }
-.chart h3 { font-size: 14px; }
-.chart p { font-size: 12px; color: var(--muted); }
-.hbars { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 10px; align-items: center; font-size: 12.5px; }
-.hbars .lbl { color: var(--muted); text-align: right; }
-.hbars .track { display: flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
-.hbars .fill { height: 14px; background: var(--bar); border-radius: 0 4px 4px 0; min-width: 2px; }
-.hbars .fill:hover { opacity: .8; }
-.findings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.finding { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; font-size: 13px; display: grid; gap: 4px; }
-.finding strong { font-size: 14px; }
-.finding span { color: var(--muted); }
-.finding.good { border-left: 4px solid var(--risk-lo); }
-.finding.ask { border-left: 4px solid var(--risk-mid); }
+/* ---------- 방향 맞추기 ---------- */
+.decisions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.dec { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; font-size: 13.5px; }
+.dec .q { font-weight: 700; font-size: 14.5px; }
+.dec .k { font-family: var(--font-mono); font-size: 12px; color: var(--human); font-weight: 700; }
+.dec .prop { color: var(--muted); }
+.dec .prop b { color: var(--ink); }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 4px; font-size: 13px; }
+.kpi b { font-size: 14px; }
+.kpi span { color: var(--muted); }
 
 /* ---------- 진행 ---------- */
-.bar { height: 10px; background: var(--line); border-radius: 99px; overflow: hidden; }
-.bar > i { display: block; height: 100%; width: calc(100% / 9); background: var(--accent); }
-.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-.step { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 4px; font-size: 13px; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 13px; display: grid; gap: 2px; }
 .step .num { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
 .step p { color: var(--muted); font-size: 12.5px; }
-.step.done { border-color: var(--accent); }
-.step.next { border-color: var(--src); border-style: dashed; }
-.pill { font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 99px; margin-left: 6px; }
-.pill.done { background: var(--accent-soft); color: var(--accent); }
-.pill.next { background: var(--src-soft); color: var(--src); }
+.step.done { border-color: var(--src); }
+.step.v { border-left: 4px solid var(--verify); }
+.step.c { border-left: 4px solid var(--consult); }
+.step.dim { opacity: .7; }
+.pill { font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 99px; margin-left: 6px; background: var(--src-soft); color: var(--src); }
 
 @media (max-width: 820px) {
-  .arch { grid-template-columns: minmax(0, 1fr); }
-  .flow-arrow { transform: rotate(90deg); height: 28px; }
-  .flow-arrow span { writing-mode: horizontal-tb; }
-  .ax-row, .calc, .tiles, .charts, .findings, .steps { grid-template-columns: minmax(0, 1fr); }
-  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .context { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .decisions, .kpis, .steps { grid-template-columns: minmax(0, 1fr); }
+  .item { grid-template-columns: 48px minmax(0, 1fr); }
+  .item > :last-child { grid-column: 2; }
   h1 { font-size: 24px; }
 }
 </style>
@@ -180,226 +174,202 @@ section { display: grid; gap: 20px; }
 <div class="wrap">
 
   <header style="display:grid;gap:10px">
-    <div class="eyebrow">공급망 ESG AX 파일럿 · Click ESG 기준으로 다시 그림</div>
-    <h1>Click ESG 공급망 진단에 AI 직원 3명을 붙이는 구조</h1>
-    <p class="lead">원청사 매뉴얼 v4.80(2025.07)의 실제 업무 순서를 그대로 따라가면서, 각 단계에서 AI가 돕는 부분과 사람이 결정하는 부분을 나눴습니다. 협력사 이름은 이 페이지에 싣지 않았습니다.</p>
+    <div class="eyebrow">공급망 ESG AX 파일럿 · 검증·컨설팅 팀 관점</div>
+    <h1>자가진단 검증과 컨설팅을 AI가 거드는 파일럿</h1>
+    <p class="lead">협력사가 Click ESG에 낸 자가진단을 우리 팀이 검증하고, 그 결과로 개선 컨설팅을 하는 일에 초점을 맞췄습니다. AI는 증빙을 먼저 훑고 근거를 붙여 제안하며, 점수 확정과 의견 작성의 최종 판단은 전문가가 합니다.</p>
   </header>
 
-  <!-- 1. 아키텍처 -->
+  <!-- 0. 우리 위치 -->
+  <section aria-labelledby="s0">
+    <div class="eyebrow">0 · Click ESG 전체 흐름에서 우리 팀의 자리</div>
+    <h2 id="s0">6단계 중 ④ 검증과 ⑤ 개선 컨설팅이 우리 일입니다</h2>
+    <div class="context">
+      <div class="ctx"><b>① 협력사 관리</b>원청사</div>
+      <div class="ctx"><b>② 기준정보</b>원청사</div>
+      <div class="ctx"><b>③ 자가진단</b>협력사 66문항 + 증빙</div>
+      <div class="ctx focus-v"><b>④ 검증</b>증빙 확인 · 점수 조정 · 검토의견</div>
+      <div class="ctx focus-c"><b>⑤ 개선 컨설팅</b>개선과제 · 우수사례 · 계획 검토</div>
+      <div class="ctx"><b>⑥ 리포트</b>Click ESG 자동 생성</div>
+    </div>
+    <p class="ctx-note">회색 단계는 Click ESG와 원청사가 하는 일이라 파일럿에서 새로 만들지 않습니다. ③에서 나온 자료를 받아 ④·⑤를 돕는 것이 파일럿의 전부입니다.</p>
+  </section>
+
+  <!-- 1. 파일럿 구성도 -->
   <section aria-labelledby="s1">
-    <div class="eyebrow">1 · AX 아키텍처</div>
-    <h2 id="s1">Click ESG에서 꺼내고, AX가 처리하고, 사람이 다시 넣습니다</h2>
-    <p class="lead">이번 파일럿은 Click ESG와 직접 연결하지 않습니다. 엑셀·증빙 파일을 내려받아 AX가 처리하고, 전문가가 승인한 결과만 사람이 Click ESG에 입력합니다.</p>
-
-    <div class="arch">
-      <div class="col">
-        <div class="col-title">원천 · Click ESG 내보내기</div>
-        <div class="panel src">
-          <h3>Click ESG</h3>
-          <span class="chip">입력자료 다운로드<small>협력사별 66개 문항 응답 (엑셀)</small></span>
-          <span class="chip">증빙파일 다운로드<small>협력사가 첨부한 파일 (zip)</small></span>
-          <span class="chip">산업별 가중치<small>산업군·중분류 가중치 (엑셀)</small></span>
-          <span class="chip">진단 결과 조회<small>점수·위험등급 (엑셀)</small></span>
+    <div class="eyebrow">1 · 파일럿 구성도</div>
+    <h2 id="s1">자료를 받아 검증하고, 검증 결과로 컨설팅합니다</h2>
+    <div class="legend">
+      <span><i class="sw" style="border-color:var(--verify)"></i>진단(검증) AI</span>
+      <span><i class="sw" style="border-color:var(--consult)"></i>컨설팅 AI</span>
+      <span><i class="sw" style="border-color:var(--line)"></i>규칙 코드 (AI 아님)</span>
+      <span><i class="sw" style="border-color:var(--human);border-style:dashed"></i>전문가 판단</span>
+      <span><i class="sw" style="border-color:var(--line);border-style:dotted"></i>Step2 후보</span>
+    </div>
+    <div class="scroll">
+      <div class="pilot">
+        <div class="side in">
+          <span class="cap">받는 것 · Click ESG</span>
+          <h3>자가진단 마감 자료</h3>
+          <span class="chip">입력자료 엑셀<small>협력사별 66문항 응답</small></span>
+          <span class="chip">증빙파일 zip<small>인증서 · 정책 · 실적 자료</small></span>
+          <span class="chip">산업별 가중치<small>GICS 산업군 · 중분류</small></span>
+          <span class="chip">작년 검증 결과<small>비교 · 정확도 측정용</small></span>
         </div>
-      </div>
 
-      <div class="flow-arrow">→<span>적재</span></div>
+        <div class="arrow">→</div>
 
-      <div class="col">
-        <div class="col-title">AX 파일럿</div>
-        <div class="panel ax">
-          <div class="strip db"><b>공용 장부 (DB)</b><span>협력사 · 지표 마스터 · 응답 · 증빙 · AI 판정 · 점수 · 개선과제 · 메일 초안 · 승인 · 변경기록 · AI 비용</span></div>
-          <div class="ax-row">
-            <div class="agent diag"><b>진단 AI</b><span>산업군 매핑 · Risk Tier 사전 분류</span><span>증빙 정합성 스크리닝 · 조정 점수 제안</span></div>
-            <div class="agent cons"><b>컨설팅 AI</b><span>개선대상 지표별 개선과제</span><span>Best Practice 매칭 · 우선순위 제안</span></div>
-            <div class="agent ops"><b>운영 AI</b><span>가입·등록·개선계획 요청 메일 초안</span><span>미입력·지연 점검 · 만족도 요약</span></div>
+        <div class="core">
+          <div class="duo">
+            <div class="block v">
+              <div class="block-head"><h3>검증</h3><span>진단 Agent</span></div>
+              <div class="stp ai"><span class="n">1</span><div><span class="who">진단 AI</span><b>검증 순서 정하기</b>산업군·응답 패턴으로 Risk Tier를 매겨 먼저 볼 협력사를 추림</div></div>
+              <div class="stp ai"><span class="n">2</span><div><span class="who">진단 AI</span><b>증빙 1차 스크리닝</b>문항마다 증빙 유무, 응답과 일치, 유효기간, 응답 간 모순을 확인 → 판정 · 근거(파일·쪽) · 조정 점수 제안</div></div>
+              <div class="stp human"><span class="n">3</span><div><span class="who">검증 전문가</span><b>판정 검토 · 점수 확정</b>AI 제안을 승인하거나 고치고 사유를 남김</div></div>
+              <div class="stp code"><span class="n">4</span><div><span class="who">규칙 코드</span><b>점수 재계산</b>지표 → 중분류 × 가중치 → 영역 → 종합 · 위험등급, 검증 전후 변화</div></div>
+              <div class="stp s2"><span class="n">5</span><div><span class="who">Step2 후보</span><b>검토의견 초안</b>총평 · 영역별 의견 문장</div></div>
+            </div>
+            <div class="block c">
+              <div class="block-head"><h3>컨설팅</h3><span>컨설팅 Agent</span></div>
+              <div class="stp code"><span class="n">6</span><div><span class="who">규칙 코드</span><b>개선대상 지표 추리기</b>기준 점수 미달 · 불일치 · 증빙누락 지표</div></div>
+              <div class="stp ai"><span class="n">7</span><div><span class="who">컨설팅 AI</span><b>개선과제 · 우수사례 연결</b>업종·지표가 맞는 Best Practice를 찾고 없으면 "없음"으로 표시, 우선순위 제안</div></div>
+              <div class="stp human"><span class="n">8</span><div><span class="who">컨설턴트</span><b>개선과제 확정</b>우선순위와 목표 점수 결정</div></div>
+              <div class="stp s2"><span class="n">9</span><div><span class="who">Step2 후보</span><b>개선계획 적정성 검토</b>협력사가 낸 계획이 과제에 맞는지 확인</div></div>
+            </div>
           </div>
-          <div class="strip"><b>규칙 코드 (AI 사용 안 함)</b><span>지표 점수 → 중분류 × 가중치 → 영역 → 종합 점수 · 위험등급 · 상태 이동</span></div>
-          <div class="strip approve"><b>전문가 승인 화면</b><span>Tier 확정 · 검증 점수 확정 · 개선과제 확정 · 메일 초안 승인 (반려 시 사유 기록)</span></div>
+          <div class="db"><b>공용 장부</b> · 응답 · 증빙 · AI 판정과 근거 · 전문가 결정 · 점수 · 개선과제 · 변경기록 · AI 비용</div>
+          <div class="support"><b>운영 AI (보조)</b><span>증빙 보완 요청 · 개선계획 요청 메일 초안</span><span>검증 지연 건 알림</span><span>만족도 요약</span></div>
         </div>
-      </div>
 
-      <div class="flow-arrow">→<span>반영</span></div>
+        <div class="arrow">→</div>
 
-      <div class="col">
-        <div class="col-title">결과 · 사람이 반영</div>
-        <div class="panel out">
-          <h3>Click ESG에 입력</h3>
-          <span class="chip">검증 최종 점수 · 검토의견</span>
-          <span class="chip">개선대상 지표 · 개선목표</span>
-          <span class="chip">요청 메일 발송</span>
-          <span class="chip">파일럿 성과 리포트<small>CEO 세미나 보고용</small></span>
+        <div class="side out">
+          <span class="cap">내보내는 것</span>
+          <h3>전문가가 확정한 결과</h3>
+          <span class="chip">검증 최종 점수<small>Click ESG에 입력</small></span>
+          <span class="chip">문항별 판정 근거<small>검토의견 작성 자료</small></span>
+          <span class="chip">개선대상 지표 · 목표<small>개선계획 요청에 사용</small></span>
+          <span class="chip">협력사별 개선과제 · 우수사례<small>컨설팅 자료</small></span>
         </div>
       </div>
     </div>
-    <p class="loop-note">나중에 Click ESG API가 열리면 "내보내기"와 "사람이 반영" 두 화살표만 자동 연결로 바꾸면 됩니다. 가운데 AX 부분은 그대로 씁니다.</p>
   </section>
 
-  <!-- 2. 워크플로우 -->
+  <!-- 2. 검증 예시 -->
   <section aria-labelledby="s2">
-    <div class="eyebrow">2 · 워크플로우</div>
-    <h2 id="s2">Click ESG 6단계 업무와 AI가 끼어드는 자리</h2>
-    <div class="legend">
-      <span><i class="sw" style="border-color:var(--ag-diag)"></i>진단 AI</span>
-      <span><i class="sw" style="border-color:var(--ag-cons)"></i>컨설팅 AI</span>
-      <span><i class="sw" style="border-color:var(--ag-ops)"></i>운영 AI</span>
-      <span><i class="sw" style="border-color:var(--line);border-style:dashed"></i>규칙 코드</span>
-      <span><i class="sw" style="border-color:var(--human);border-style:dashed"></i>전문가 승인</span>
-      <span><i class="sw" style="border-color:var(--todo);border-style:dotted"></i>Step2 (이번 범위 밖)</span>
-      <span>✉ 메일이 나가는 지점</span>
-    </div>
-    <div class="scroll">
-      <div class="lanes" role="table" aria-label="Click ESG 업무 단계별 주체와 AI 적용 지점">
-        <div class="ph"></div>
-        <div class="ph">① 협력사 관리<small>매뉴얼 7–10쪽</small></div>
-        <div class="ph">② 기준정보<small>11–19쪽</small></div>
-        <div class="ph">③ 자가진단<small>20–24쪽</small></div>
-        <div class="ph">④ 검증<small>25–33쪽</small></div>
-        <div class="ph">⑤ 개선<small>34–39쪽</small></div>
-        <div class="ph">⑥ 리포트<small>40–60쪽</small></div>
-
-        <div class="who">원청사<small>우리</small></div>
-        <div><span class="st">협력사 엑셀 일괄 등록</span><span class="st mail">가입 요청</span><span class="st">진단 대상 설정</span></div>
-        <div><span class="st">산업별 가중치 (중분류, 합계 100)</span><span class="st">세부지표 선정</span><span class="st">협력사 산업군 적용</span></div>
-        <div><span class="st mail">데이터 등록 요청</span><span class="st">공급망 진단 (점수 산출)</span><span class="st">마감 → Self Assessment</span></div>
-        <div><span class="st">검증 요청 (온라인 / 실사)</span><span class="st">검증 결과 조회</span></div>
-        <div><span class="st">개선대상 지표 선정</span><span class="st">개선목표 설정</span><span class="st mail">개선계획 요청</span><span class="st">이행률 모니터링</span></div>
-        <div><span class="st">최종 진단 리포트</span><span class="st">종합 · 산업별 · 협력사별 · 개선과제</span></div>
-
-        <div class="who">협력사</div>
-        <div><span class="st">회원가입</span><span class="st">등록 동의</span></div>
-        <div><span class="st">재무정보 입력</span></div>
-        <div><span class="st">66개 문항 응답</span><span class="st">증빙 첨부</span></div>
-        <div></div>
-        <div><span class="st">개선계획 수립 · 제출</span><span class="st">이행</span></div>
-        <div><span class="st">결과 공유 받음</span></div>
-
-        <div class="who">검증사<small>제3자</small></div>
-        <div></div><div></div><div></div>
-        <div><span class="st">증빙 확인</span><span class="st">최종 점수 수정</span><span class="st">검토의견 (총평·영역별)</span></div>
-        <div><span class="st">개선계획 적정성 검토</span></div>
-        <div></div>
-
-        <div class="who ax">AX 파일럿<small>이번에 만드는 것</small></div>
-        <div class="ax-lane"><span class="tag ops"><i>운영 AI</i>가입·등록 요청 메일 초안, 미가입 리마인드</span></div>
-        <div class="ax-lane"><span class="tag diag"><i>진단 AI · 모듈 A</i>업종 → GICS 산업군 매핑 제안, Risk Tier 사전 분류</span><span class="tag human"><i>전문가</i>Tier 확정</span></div>
-        <div class="ax-lane"><span class="tag ops"><i>운영 AI</i>미입력·입력중 점검, 리마인드 초안</span><span class="tag code"><i>규칙 코드</i>점수 · 위험등급 계산</span></div>
-        <div class="ax-lane"><span class="tag diag"><i>진단 AI · 모듈 B</i>증빙 vs 응답, 유효기간, 응답 간 모순 → 판정·근거·조정 점수 제안</span><span class="tag human"><i>전문가</i>검증 점수 확정</span><span class="tag step2"><i>Step2</i>검토의견서 초안</span></div>
-        <div class="ax-lane"><span class="tag cons"><i>컨설팅 AI</i>개선과제 + Best Practice 매칭, 우선순위</span><span class="tag human"><i>전문가</i>개선과제 확정</span><span class="tag ops"><i>운영 AI</i>개선계획 요청 초안, 이행 점검</span></div>
-        <div class="ax-lane"><span class="tag ops"><i>운영 AI</i>만족도 조사 취합·요약</span><span class="tag code"><i>규칙 코드</i>파일럿 정확도 리포트</span><span class="tag step2"><i>Step2</i>리포트 초안</span></div>
+    <div class="eyebrow">2 · 검증 화면 예시 (가상의 협력사)</div>
+    <h2 id="s2">AI가 문항마다 판정과 근거를 붙여 드리면, 전문가는 확인만 합니다</h2>
+    <div class="eg-meta"><span>협력사 <b>협력사-A</b></span><span>산업군 <b>건설과 엔지니어링</b></span><span>검증 기준일 <b class="mono">2025-03-31</b></span><span>선택지·점수는 실제 Click ESG 문항 기준</span></div>
+    <div class="frame scroll">
+      <table class="qtable">
+        <thead><tr><th>지표</th><th>협력사 응답</th><th>AI 판정</th><th>근거</th><th>점수 제안</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>환경경영시스템 인증 취득</b><small>환경 · 환경경영 관리체계</small></td>
+            <td>예, 전체 사업장에 대해 취득하였습니다.</td>
+            <td><span class="verdict bad">불일치</span></td>
+            <td><span class="src">iso14001.pdf · 1쪽</span><br>인증 범위가 "본사 제조공장"뿐입니다. 응답은 전체 사업장입니다.</td>
+            <td class="num">10 → 7<small>일부 사업장</small></td>
+          </tr>
+          <tr>
+            <td><b>안전경영시스템 인증 취득</b><small>사회 · 보건안전</small></td>
+            <td>예, 전체 사업장에 대하여 취득하였습니다.</td>
+            <td><span class="verdict bad">불일치</span></td>
+            <td><span class="src">iso45001.pdf · 1쪽</span><br>유효기간이 2024-11-30에 끝났습니다. 기준일에는 효력이 없습니다.</td>
+            <td class="num">10 → 0<small>갱신 증빙 요청</small></td>
+          </tr>
+          <tr>
+            <td><b>온실가스 배출량 측정</b><small>환경 · 온실가스</small></td>
+            <td>예, 온실가스 배출량을 측정하고 있습니다.</td>
+            <td><span class="verdict miss">증빙누락</span></td>
+            <td>첨부 파일이 없습니다. Scope 1·2 배출량 칸도 비어 있습니다.</td>
+            <td class="num">10 → 0<small>보완 요청</small></td>
+          </tr>
+          <tr>
+            <td><b>환경 정책 수립</b><small>환경 · 환경경영 관리체계</small></td>
+            <td>예, 정책 수준의 문서를 보유하면서 … 외부에 공시하고 있습니다.</td>
+            <td><span class="verdict check">확인필요</span></td>
+            <td><span class="src">환경방침.pdf · 1–2쪽</span><br>정책 문서는 있으나 외부 공시 여부는 문서만으로 알 수 없습니다.</td>
+            <td class="num">10 → 7?<small>공시 링크 확인</small></td>
+          </tr>
+          <tr>
+            <td><b>에너지 사용량 측정</b><small>환경 · 에너지</small></td>
+            <td>예, 에너지 사용량을 소비 유형 별로 측정하고 있습니다.</td>
+            <td><span class="verdict ok">적합</span></td>
+            <td><span class="src">에너지사용량_2024.xlsx · 시트1</span><br>전기·LNG 월별 사용량이 유형별로 나뉘어 있습니다.</td>
+            <td class="num">10 유지</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="frame-foot">
+        <span>66문항 중 AI가 짚은 문항 <b>4</b> · 적합 <b>62</b> &nbsp;|&nbsp; 종합 점수 (예시) <b>6.42 → 5.87</b></span>
+        <span class="btns"><span class="btn primary">승인</span><span class="btn">수정</span><span class="btn">반려</span></span>
       </div>
     </div>
+    <p class="lead">전문가는 66문항을 처음부터 다 보지 않고, AI가 짚은 문항과 근거 쪽수부터 확인합니다. 파일럿에서 측정할 것은 "이렇게 했을 때 시간이 얼마나 줄고, AI 판정이 검증사 판정과 얼마나 같은가"입니다.</p>
   </section>
 
-  <!-- 3. 상태 흐름 -->
+  <!-- 3. 컨설팅 예시 -->
   <section aria-labelledby="s3">
-    <div class="eyebrow">3 · 협력사 한 곳의 상태 흐름 (제안)</div>
-    <h2 id="s3">Click ESG 상태 이름에 맞춘 진행 단계</h2>
-    <p class="lead">1단계에서 만든 상태값을 Click ESG 화면의 상태(미입력 → 입력중 → 입력완료 → 마감 → 검증요청 …)에 맞추는 안입니다. 확인해 주시면 3단계에서 이 흐름대로 만듭니다.</p>
-    <div class="legend">
-      <span><i class="sw" style="border-color:var(--src)"></i>Click ESG에서 일어나는 일</span>
-      <span><i class="sw" style="border-color:var(--accent)"></i>AX가 처리</span>
-      <span><i class="sw" style="border-color:var(--human)"></i>전문가 승인 대기 (반려 시 이전 단계)</span>
+    <div class="eyebrow">3 · 컨설팅 예시 (같은 협력사)</div>
+    <h2 id="s3">검증 결과가 그대로 개선과제가 됩니다</h2>
+    <div class="items">
+      <div class="item"><span class="prio">상</span><div><b>안전경영시스템 인증 갱신</b><small>검증: 인증 만료 · 10 → 0</small></div><div>갱신 심사 일정 수립과 전 사업장 확대 순서를 제안합니다.<br><span class="bp">BP-014 · 건설업 현장별 ISO 45001 순차 인증</span></div></div>
+      <div class="item"><span class="prio">상</span><div><b>온실가스 배출량 산정 체계</b><small>검증: 증빙누락 · 10 → 0</small></div><div>전기·연료 사용량으로 Scope 1·2를 계산하는 방법부터 안내합니다.<br><span class="bp">BP-021 · 중소 협력사 Scope 1·2 산정 템플릿</span></div></div>
+      <div class="item"><span class="prio">중</span><div><b>환경경영시스템 인증 범위 확대</b><small>검증: 범위 불일치 · 10 → 7</small></div><div>본사 공장 인증을 다른 사업장으로 넓히는 단계를 제안합니다.<br><span class="bp none">매칭 BP 없음 · 컨설턴트 작성 필요</span></div></div>
     </div>
-    <div class="scroll">
-      <div class="states">
-        <div class="state c"><strong>대상 등록</strong><span>엑셀 적재</span></div>
-        <div class="state"><strong>Tier 분류</strong><span>진단 AI</span></div>
-        <div class="state h"><strong>Tier 승인</strong><span>전문가</span></div>
-        <div class="state c"><strong>등록 요청 · 입력중</strong><span>운영 AI 점검</span></div>
-        <div class="state c"><strong>입력완료 · 마감</strong><span>응답·증빙 적재</span></div>
-        <div class="state"><strong>증빙 스크리닝</strong><span>진단 AI + 점수 코드</span></div>
-        <div class="state h"><strong>검증 점수 확정</strong><span>전문가</span></div>
-        <div class="state"><strong>개선과제 도출</strong><span>컨설팅 AI</span></div>
-        <div class="state h"><strong>개선과제 확정</strong><span>전문가</span></div>
-        <div class="state c"><strong>개선계획 · 이행</strong><span>운영 AI 점검</span></div>
-        <div class="state"><strong>만족도 · 종료</strong><span>운영 AI</span></div>
-      </div>
-    </div>
+    <p class="lead">우수사례 목록에 맞는 사례가 없으면 AI가 지어내지 않고 "없음"으로 표시합니다. 우선순위와 목표 점수는 컨설턴트가 확정합니다.</p>
   </section>
 
-  <!-- 4. 점수 로직 -->
+  <!-- 4. 역할 분담 -->
   <section aria-labelledby="s4">
-    <div class="eyebrow">4 · 점수 계산 (AI 사용 안 함)</div>
-    <h2 id="s4">점수는 Click ESG와 같은 규칙으로 코드가 계산합니다</h2>
-    <div class="calc">
-      <div class="strip"><b>① 지표 점수</b><span>선택지 수준에 따라</span><span class="mono">0 · 3 · 7 · 10</span></div>
-      <div class="strip"><b>② 중분류 점수</b><span>지표 평균</span><span class="mono">23개 중분류</span></div>
-      <div class="strip"><b>③ 영역 점수</b><span>중분류 × 산업별 가중치</span><span class="mono">환경 · 사회 · 지배구조</span></div>
-      <div class="strip"><b>④ 종합 점수 · 등급</b><span>10점 만점 → 위험등급, RM-1~7</span><span class="mono">가중치 합계 100</span></div>
-    </div>
-    <div class="scale">
-      <div class="scale-bar" role="img" aria-label="위험등급: 0에서 2.99는 고위험, 3에서 6.99는 중위험, 7에서 10은 저위험">
-        <div style="background:var(--risk-hi)">고위험</div>
-        <div style="background:var(--risk-mid)">중위험</div>
-        <div style="background:var(--risk-lo)">저위험</div>
-      </div>
-      <div class="scale-ticks"><span>0</span><span>3.0</span><span>7.0</span><span>10점</span></div>
+    <div class="eyebrow">4 · 역할 분담</div>
+    <h2 id="s4">AI는 찾고 제안하고, 전문가는 판단하고 책임집니다</h2>
+    <div class="scroll">
+      <table class="roles">
+        <thead><tr><th></th><th>AI가 하는 일</th><th>규칙 코드가 하는 일</th><th>전문가가 하는 일</th></tr></thead>
+        <tbody>
+          <tr><td>검증</td><td>증빙 읽기, 응답과 비교, 판정 · 근거 · 조정 점수 제안</td><td>점수 계산, 위험등급, 검증 전후 변화</td><td>판정 확정, 점수 결정, 검토의견</td></tr>
+          <tr><td>컨설팅</td><td>개선과제 문장, 우수사례 연결, 우선순위 제안</td><td>개선대상 지표 추리기</td><td>과제 · 우선순위 · 목표 확정</td></tr>
+          <tr><td>연락</td><td>보완 요청 · 개선계획 요청 메일 초안</td><td>지연 건 목록</td><td>메일 승인 · 실제 발송</td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
-  <!-- 5. 받은 데이터 -->
+  <!-- 5. 방향 맞추기 -->
   <section aria-labelledby="s5">
-    <div class="eyebrow">5 · 보내주신 2024년 데이터로 확인한 것</div>
-    <h2 id="s5">문항·점수 체계는 파일에서 바로 뽑아 쓸 수 있습니다</h2>
-    <div class="tiles">
-      <div class="tile"><b>106</b><span>협력사 (2024년)</span></div>
-      <div class="tile"><b>66</b><span>정성 지표</span></div>
-      <div class="tile"><b>23</b><span>중분류</span></div>
-      <div class="tile"><b>7</b><span>산업군 (GICS)</span></div>
+    <div class="eyebrow">5 · 방향 맞추기</div>
+    <h2 id="s5">정해 주시면 SPEC을 이 방향으로 고치겠습니다</h2>
+    <div class="decisions">
+      <div class="dec"><span class="k">결정 1</span><span class="q">우리 팀 위치는 "검증사 + 컨설턴트"가 맞나요?</span><span class="prop"><b>제안</b> · 맞다면 원청사용 기능(협력사 등록, 가중치 관리)은 파일럿에서 빼고, 받은 자료를 검증하는 데 집중합니다.</span></div>
+      <div class="dec"><span class="k">결정 2</span><span class="q">검토의견 초안(총평 · 영역별)을 파일럿에 넣을까요?</span><span class="prop"><b>제안</b> · 검증의 최종 산출물이라 효과가 잘 보입니다. SPEC에서는 Step2였지만 파일럿으로 당기는 것을 권합니다.</span></div>
+      <div class="dec"><span class="k">결정 3</span><span class="q">운영 AI는 어디까지 할까요?</span><span class="prop"><b>제안</b> · 보완 요청 · 개선계획 요청 메일 초안과 지연 알림만 남기고, 가입 요청과 만족도 조사는 뒤로 미룹니다.</span></div>
+      <div class="dec"><span class="k">결정 4</span><span class="q">시험에 쓸 자료를 받을 수 있나요?</span><span class="prop"><b>필요</b> · 협력사가 처음 낸 응답(검증 전), 증빙파일 zip, 검증 후 점수. 이미 받은 2024년 검증 후 점수 파일과 짝을 맞추면 됩니다.</span></div>
     </div>
-
-    <div class="charts">
-      <div class="chart">
-        <h3>산업군별 협력사 수</h3>
-        <div class="hbars" id="ind"></div>
-      </div>
-      <div class="chart">
-        <h3>영역별 지표 수</h3>
-        <div class="hbars" id="area"></div>
-        <h3 style="margin-top:8px">지표 점수 분포 (6,996칸)</h3>
-        <div class="hbars" id="score"></div>
-      </div>
-    </div>
-
-    <div class="findings">
-      <div class="finding good"><strong>배점표를 자동으로 만들 수 있음</strong><span>같은 답을 고르면 항상 같은 점수였습니다(불일치 0건). 파일에서 "선택지 → 점수" 표를 그대로 뽑아 점수 계산 코드에 씁니다.</span></div>
-      <div class="finding good"><strong>과거 결과 비교용으로 충분한 규모</strong><span>106곳 × 66문항이면 SPEC이 요구한 "최소 20곳"을 넘습니다.</span></div>
-      <div class="finding ask"><strong>위반 지표 6개는 확인 필요</strong><span>환경법규·근로기준법·정보보호·분쟁광물·윤리경영·공정거래 위반 문항은 106곳 모두 "위반 없음 = 0점"입니다. 위반 시 감점하는 문항인지 알려 주세요.</span></div>
-      <div class="finding ask"><strong>AI 채점에 더 필요한 자료</strong><span>이 파일은 검증이 끝난 뒤의 답과 점수입니다. 협력사가 처음 낸 답과 증빙 파일(zip)이 있으면 "AI가 검증사와 같은 곳을 짚었는지" 비교할 수 있습니다.</span></div>
+    <h3 style="margin-top:6px">CEO 세미나에서 보여줄 숫자</h3>
+    <div class="kpis">
+      <div class="kpi"><b>검증 1건당 시간</b><span>기존 대비 몇 % 줄었는지</span></div>
+      <div class="kpi"><b>판정 일치율</b><span>AI 판정과 검증사 판정이 같은 비율</span></div>
+      <div class="kpi"><b>추가 발견</b><span>사람이 놓쳤는데 AI가 짚은 문항 수</span></div>
+      <div class="kpi"><b>1건당 AI 비용</b><span>협력사 한 곳 검증에 든 비용</span></div>
     </div>
   </section>
 
-  <!-- 6. 진행현황 -->
+  <!-- 6. 진행 -->
   <section aria-labelledby="s6">
-    <div class="eyebrow">6 · 진행현황</div>
-    <h2 id="s6">9단계 중 1단계 완료</h2>
-    <div class="bar" role="img" aria-label="9단계 중 1단계 완료"><i></i></div>
+    <div class="eyebrow">6 · 개발 순서 (결정 후 조정)</div>
+    <h2 id="s6">검증부터 먼저 보이게 만듭니다</h2>
     <ol class="steps">
-      <li class="step done"><span class="num">1단계<span class="pill done">완료</span></span><b>골격 · 장부 · 샘플</b><p>폴더, 설정, DB 13개 표, 가상 협력사 20곳</p></li>
-      <li class="step next"><span class="num">2단계<span class="pill next">다음</span></span><b>Click ESG 엑셀 적재</b><p>받은 파일 모양(지표 66개, 협력사별 2열)에 맞춰 적재</p></li>
-      <li class="step"><span class="num">3단계</span><b>상태 흐름 · 변경기록</b><p>위 3번 그림의 흐름으로</p></li>
-      <li class="step"><span class="num">4단계</span><b>진단 AI · Risk Tier</b><p>GICS 산업군 + 규칙으로 분류</p></li>
-      <li class="step"><span class="num">5단계</span><b>진단 AI · 증빙 스크리닝 + 점수</b><p>Click ESG 점수 규칙 재현</p></li>
-      <li class="step"><span class="num">6단계</span><b>승인 화면 · 대시보드</b><p>전문가 승인·반려</p></li>
-      <li class="step"><span class="num">7단계</span><b>컨설팅 AI</b><p>개선과제 · Best Practice</p></li>
-      <li class="step"><span class="num">8단계</span><b>운영 AI</b><p>메일 초안 · 현황 점검 · 만족도</p></li>
+      <li class="step done"><span class="num">1단계<span class="pill">완료</span></span><b>골격 · 장부 · 샘플</b><p>Click ESG 구조에 맞게 2단계에서 보강</p></li>
+      <li class="step v"><span class="num">2단계</span><b>Click ESG 자료 적재</b><p>66문항 응답 · 증빙 · 가중치 · 작년 검증 결과</p></li>
+      <li class="step"><span class="num">3단계</span><b>상태 흐름 · 변경기록</b><p>검증 대기 → 스크리닝 → 확정 → 컨설팅</p></li>
+      <li class="step v"><span class="num">4단계</span><b>검증 순서 (Risk Tier)</b><p>먼저 볼 협력사 추리기</p></li>
+      <li class="step v"><span class="num">5단계</span><b>증빙 스크리닝 · 점수 계산</b><p>파일럿의 핵심</p></li>
+      <li class="step v"><span class="num">6단계</span><b>검증 화면</b><p>위 2번 예시 화면 · 승인 · 수정 · 반려</p></li>
+      <li class="step c"><span class="num">7단계</span><b>컨설팅 AI</b><p>개선과제 · 우수사례</p></li>
+      <li class="step dim"><span class="num">8단계</span><b>운영 AI (축소)</b><p>보완 · 개선계획 요청 초안</p></li>
       <li class="step"><span class="num">9단계</span><b>정확도 평가 · 시연</b><p>2024년 검증 결과와 비교</p></li>
     </ol>
   </section>
 
 </div>
-
-<script>
-function bars(id, rows) {
-  const el = document.getElementById(id);
-  const max = Math.max(...rows.map(r => r[1]));
-  el.innerHTML = rows.map(([k, v]) =>
-    `<span class="lbl">${k}</span><span class="track" title="${k}: ${v.toLocaleString()}">` +
-    `<span class="fill" style="width:${(v / max) * 78}%"></span>${v.toLocaleString()}</span>`
-  ).join("");
-}
-bars("ind", [["건설과 엔지니어링", 29], ["IT 컨설팅 및 기타 서비스", 28], ["애플리케이션 소프트웨어", 23], ["기술 판매업체", 13], ["리서치 및 컨설팅 서비스", 8], ["통신 장비", 4], ["기술 하드웨어", 1]]);
-bars("area", [["환경", 26], ["사회", 25], ["지배구조", 15]]);
-bars("score", [["10점", 2342], ["7점", 1131], ["3점", 539], ["0점", 2984]]);
-</script>
